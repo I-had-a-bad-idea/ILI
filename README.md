@@ -1,3 +1,5 @@
+# **Curently IPL is missing the ability to load libraries!!!**
+
 # ILI (IPL Library Installer)
 
 ILI is the package manager for [IPL](https://github.com/I-had-a-bad-idea/IPL). It installs, updates and removes IPL libraries.
@@ -12,6 +14,8 @@ cargo install --path C:\ProgramData\ILI
 After installation, the `ili` command becomes available system-wide.
 
 ## Commands
+
+Call commands via `ili command args`
 
 ### `install <name>`
 
