@@ -1,1 +1,1 @@
-example=https://github.com/example/example.git
+examplelib = https://github.com/I-had-a-bad-idea/Example-IPL-Library
