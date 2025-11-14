@@ -141,10 +141,24 @@ fn update(name: &str, libs_dir: &Path) {
         .status()
         .expect("Failed to run git pull");
 
-    if status.success() {
-        println!("Updated '{}'", name);
-    } else {
+    if !status.success() {
         eprintln!("Update failed for '{}'", name);
+        return;
+    }
+
+    // Reload Library.json
+    match load_library_json(&path) {
+        Some(lib) => {
+            println!("Updated '{}'", lib.name);
+            println!("Version: {}", lib.version);
+
+            if !lib.dependencies.is_empty() {
+                println!("Dependencies: {:?}", lib.dependencies);
+            }
+        }
+        None => {
+            eprintln!("Warning: '{}' updated but Library.json is invalid!", name);
+        }
     }
 }
 
