@@ -281,11 +281,12 @@ fn ensure_registry() -> PathBuf {
             .args(["-C", local.to_str().unwrap(), "pull"])
             .status();
     }
+    print!("Updating ili installation...")
     let _ = Command::new("cargo")
         .args(&["install", "--path", r"C:\ProgramData\ILI"])
         .status()
         .expect("Failed to execute cargo install");
-
+    
     registry_file
 }
 // Clone the registry repository
