@@ -282,10 +282,11 @@ fn ensure_registry() -> PathBuf {
             .status();
     }
     print!("Updating ili installation...");
-    let _ = Command::new("cargo")
-        .args(&["install", "--path", r"C:\ProgramData\ILI"])
-        .status()
-        .expect("Failed to execute cargo install");
+    let _ = Command::new("powershell")
+        .arg("-Command")
+        .arg("Start-Process cargo -ArgumentList 'install --path C:\\ProgramData\\ILI' -Verb runAs")
+        .spawn()
+        .unwrap();
     
     registry_file
 }
