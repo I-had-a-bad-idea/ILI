@@ -222,8 +222,7 @@ fn update(name: &str, libs_dir: &Path) {
         }
     }
 }
-
-fn update_all(libs_dir: &Path) {
+fn read_library_dir(libs_dir: &Path) -> Result<ReadDir> {
     let entries = match fs::read_dir(libs_dir) {
         Ok(e) => e,
         Err(_) => {
@@ -231,6 +230,10 @@ fn update_all(libs_dir: &Path) {
             return;
         }
     };
+    return entries
+    
+fn update_all(libs_dir: &Path) {
+    let entries = read_library_dir(libs_dir);
 
     for entry in entries {
         let Ok(entry) = entry else { continue };
