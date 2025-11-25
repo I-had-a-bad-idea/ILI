@@ -1,9 +1,9 @@
+use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::env;
 
-const ILI_PATH : &str = "C:\\ProgramData\\ILI"; // Change as needed
+const ILI_PATH: &str = "C:\\ProgramData\\ILI"; // Change as needed
 
 #[derive(Debug)]
 struct Library {
@@ -36,16 +36,21 @@ fn load_library_json(path: &Path) -> Option<Library> {
         }
     }
 
-    Some(Library { name, version, entry, dependencies })
+    Some(Library {
+        name,
+        version,
+        entry,
+        dependencies,
+    })
 }
 
 fn extract_string(line: &str) -> Option<String> {
     let start = line.find('"')?; // Where it starts
-    let rest = &line[start+1..];
+    let rest = &line[start + 1..];
     let mid = rest.find('"')?; // End of key
-    let rest = &rest[mid+1..];
+    let rest = &rest[mid + 1..];
     let value_start = rest.find('"')?; // Start of value
-    let rest = &rest[value_start+1..];
+    let rest = &rest[value_start + 1..];
     let value_end = rest.find('"')?; // End of value
     Some(rest[..value_end].to_string()) // Extracted value
 }
@@ -53,12 +58,14 @@ fn extract_string(line: &str) -> Option<String> {
 fn extract_array(_line: &str, full: &str) -> Option<Vec<String>> {
     let start = full.find('[')?; // Start of array
     let end = full.find(']')?; // End of array
-    let inside = &full[start+1..end]; // Inside the brackets
+    let inside = &full[start + 1..end]; // Inside the brackets
     let mut out = Vec::new();
-    for part in inside.split(',') { // Split by commas
+    for part in inside.split(',') {
+        // Split by commas
         let t = part.trim();
-        if t.starts_with('"') && t.ends_with('"') { // Is a string
-            out.push(t[1..t.len()-1].to_string()); // Remove quotes
+        if t.starts_with('"') && t.ends_with('"') {
+            // Is a string
+            out.push(t[1..t.len() - 1].to_string()); // Remove quotes
         }
     }
     Some(out)
@@ -110,8 +117,7 @@ fn main() {
         "reinstall" => {
             if let Some(name) = args.get(2) {
                 reinstall(name, &libs_dir);
-            }
-            else {
+            } else {
                 eprintln!("Usage: ili reinstall <name>")
             }
         }
@@ -168,9 +174,7 @@ fn list(libs_dir: &Path) {
 
 // Get the libs directory path
 fn libs_dir() -> PathBuf {
-    let path = PathBuf::from(ILI_PATH).join("libs");
-    println!("Using libs directory: {}", path.display());
-    return path;
+    PathBuf::from(ILI_PATH).join("libs")
 }
 // Install a library by name
 fn install(name: &str, libs_dir: &Path) {
@@ -214,7 +218,8 @@ fn install(name: &str, libs_dir: &Path) {
             if !lib.dependencies.is_empty() {
                 println!("Dependencies: {:?}", lib.dependencies);
 
-                for dep in &lib.dependencies { // Install dependencies
+                for dep in &lib.dependencies {
+                    // Install dependencies
                     install(dep, libs_dir);
                 }
             }
@@ -222,7 +227,6 @@ fn install(name: &str, libs_dir: &Path) {
         None => {
             eprintln!("Invalid library: missing or malformed Library.json");
             fs::remove_dir_all(&dest).unwrap();
-            return;
         }
     }
 }
@@ -255,7 +259,8 @@ fn update(name: &str, libs_dir: &Path) {
 
             if !lib.dependencies.is_empty() {
                 println!("Dependencies: {:?}", lib.dependencies);
-                for dep in &lib.dependencies { // Update dependencies
+                for dep in &lib.dependencies {
+                    // Update dependencies
                     update(dep, libs_dir);
                 }
             }
@@ -265,7 +270,7 @@ fn update(name: &str, libs_dir: &Path) {
         }
     }
 }
-fn read_library_dir(libs_dir: &Path)  -> Vec<PathBuf> {
+fn read_library_dir(libs_dir: &Path) -> Vec<PathBuf> {
     let entries = match fs::read_dir(libs_dir) {
         Ok(e) => e,
         Err(_) => {
@@ -282,9 +287,9 @@ fn read_library_dir(libs_dir: &Path)  -> Vec<PathBuf> {
             libraries.push(path);
         }
     }
-    return libraries;
+    libraries
 }
-    
+
 fn update_all(libs_dir: &Path) {
     let entries = read_library_dir(libs_dir);
 
@@ -339,7 +344,7 @@ fn ensure_registry() -> PathBuf {
         .arg("Start-Process cargo -ArgumentList 'install --path C:\\ProgramData\\ILI' -Verb runAs")
         .spawn()
         .unwrap();
-    
+
     registry_file
 }
 // Clone the registry repository
