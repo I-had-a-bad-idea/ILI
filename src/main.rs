@@ -107,6 +107,14 @@ fn main() {
         "list" => {
             list(&libs_dir);
         }
+        "reinstall" => {
+            if let Some(name) = args.get(2) {
+                reinstall(name, &libs_dir);
+            }
+            else {
+                eprintln!("Usage: ili reinstall <name>")
+            }
+        }
         "sync" => {
             ensure_registry();
         }
@@ -124,9 +132,15 @@ Commands:
   remove <name>    Remove a library
   where <name>     Show installation path
   list             List installed libraries
+  reinstall <name> Removes and freshly installs a library
   sync             Update ILI and its registry
 "
     );
+}
+
+fn reinstall(name: &str, libs_dir: &Path) {
+    remove(name, libs_dir);
+    install(name, libs_dir);
 }
 
 fn list(libs_dir: &Path) {
@@ -160,6 +174,7 @@ fn libs_dir() -> PathBuf {
 }
 // Install a library by name
 fn install(name: &str, libs_dir: &Path) {
+    print!("Installing {}...", name);
     let registry = ensure_registry();
     let content = fs::read_to_string(&registry).unwrap_or_default(); // Read registry
 
@@ -285,6 +300,7 @@ fn update_all(libs_dir: &Path) {
 
 // Remove an installed library
 fn remove(name: &str, libs_dir: &Path) {
+    print!("Removing {}...", name);
     let path = libs_dir.join(name);
     if !path.exists() {
         eprintln!("'{}' not installed", name);
