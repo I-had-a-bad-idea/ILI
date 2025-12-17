@@ -1,6 +1,7 @@
 # ILI (IPL Library Installer)
 
-ILI is the package manager for [IPL](https://github.com/I-had-a-bad-idea/IPL). It installs, updates and removes IPL libraries.
+ILI is the package manager for [IPL](https://github.com/I-had-a-bad-idea/IPL). 
+It installs, updates and removes IPL libraries and even has colors.
 
 ## Installation
 
