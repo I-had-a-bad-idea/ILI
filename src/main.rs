@@ -13,19 +13,19 @@ struct Library {
 }
 
 fn print_info(msg: &str) {
-    blue_ln!(msg)
+    blue_ln!("{}", msg)
 }
 
 fn print_success(msg: &str) {
-    green_ln!(msg);
+    green_ln!("{}", msg);
 }
 
 fn print_warn(msg: &str) {
-    yellow_ln!(msg);
+    yellow_ln!("{}", msg);
 }
 
 fn print_error(msg: &str) {
-    red_ln!(msg);
+    red_ln!("{}", msg);
 }
 
 fn get_ili_path() -> PathBuf {
