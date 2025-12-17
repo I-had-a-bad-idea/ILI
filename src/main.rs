@@ -11,6 +11,28 @@ struct Library {
     dependencies: Vec<String>,
 }
 
+const RESET: &str = "\x1b[0m";
+const RED: &str = "\x1b[31m";
+const GREEN: &str = "\x1b[32m";
+const YELLOW: &str = "\x1b[33m";
+const BLUE: &str = "\x1b[34m";
+
+fn print_info(msg: &str) {
+    println!("{BLUE}{msg}{RESET}");
+}
+
+fn print_success(msg: &str) {
+    println!("{GREEN}{msg}{RESET}");
+}
+
+fn print_warn(msg: &str) {
+    println!("{YELLOW}{msg}{RESET}");
+}
+
+fn print_error(msg: &str) {
+    eprint!("{RED}{msg}{RESET}");
+}
+
 fn get_ili_path() -> PathBuf {
     #[cfg(target_os = "windows")]
     {
