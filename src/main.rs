@@ -164,6 +164,9 @@ fn main() {
         "sync" => {
             ensure_registry();
         }
+        "update-ili" => {
+            update_installation();
+        }
         _ => print_help(),
     }
 }
@@ -378,15 +381,24 @@ fn ensure_registry() -> PathBuf {
             .args(["-C", local.to_str().unwrap(), "pull"])
             .status();
     }
-    // print_info("Updating ili installation...");
-    // let _ = Command::new("powershell")
-    //     .arg("-Command")
-    //     .arg("Start-Process cargo -ArgumentList 'install --path C:\\ProgramData\\ILI' -Verb runAs")
-    //     .spawn()
-    //     .unwrap();
 
     registry_file
 }
+
+fn update_installation() {
+    ensure_registry();
+    let ili_path = get_ili_path();
+
+    let status = Command::new("cargo")
+        .args(["install", "--path"])
+        .arg(&ili_path)
+        .status();
+
+    if let Err(e) = status {
+        eprintln!("Self-update failed: {}", e);
+    }
+}
+
 // Clone the registry repository
 fn clone_registry(path: &Path) {
     let registry_repo = "https://github.com/I-had-a-bad-idea/ILI.git";
