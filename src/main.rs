@@ -29,6 +29,13 @@ fn print_error(msg: &str) {
 }
 
 fn get_ili_path() -> PathBuf {
+    match std::env::var("ILI_PATH"){
+        Ok(path) => PathBuf::from(path),
+        Err(_) => get_hardcoded_ili_path(),
+    }
+}
+
+fn get_hardcoded_ili_path() -> PathBuf {
     #[cfg(target_os = "windows")]
     {
         PathBuf::from(std::env::var("PROGRAMDATA").unwrap()).join("ILI")
