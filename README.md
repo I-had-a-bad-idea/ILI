@@ -11,6 +11,8 @@ cargo install --path C:\ProgramData\ILI
 ```
 
 After installation, the `ili` command becomes available system-wide.
+You can configure the `ILI_PATH` environment variable to configure where ILI data will be saved.
+
 
 ## Commands
 
@@ -43,7 +45,11 @@ Removes and freshly installs a library
 
 ### `sync`
 
-Pull the latest registry index so `ili` knows about new/updated libraries.
+Pulls the latest registry index so `ili` knows about new/updated libraries.
+
+### `update-ili`
+
+Pulls the latest version of ILI and updates the installation.
 
 ## Registry Structure
 
