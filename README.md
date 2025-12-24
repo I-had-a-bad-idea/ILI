@@ -72,5 +72,3 @@ ILI expects the registry to contain entries describing libraries (name, version,
    Submit a pull request adding a new entry for your library in the registry file.
    Follow the example already in the registry file (you need a name, and the url to your git repo).
 
-> Note: Currently classes inside libraries are not supported by IPL
-
