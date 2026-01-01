@@ -1,6 +1,6 @@
 # ILI (IPL Library Installer)
 
-ILI is the package manager for [IPL](https://github.com/I-had-a-bad-idea/IPL). 
+ILI is the package manager for [IPL](https://github.com/IPL-Foundation/IPL)
 It installs, updates and removes IPL libraries and even has colors.
 
 ## Installation
@@ -57,8 +57,7 @@ ILI expects the registry to contain entries describing libraries (name, version,
 
 ## Contributing a Library
 
-1. **Use the example library as a template**
-   [https://github.com/I-had-a-bad-idea/Example-IPL-Library](https://github.com/I-had-a-bad-idea/Example-IPL-Library)
+1. **Use the [example library](https://github.com/IPL-Foundation/Example-IPL-Library) as a template**
 
 2. **Create a valid `Library.json`**
    It must include:
